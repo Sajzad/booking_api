@@ -1,8 +1,5 @@
 # booking_api
 
-## Getting Started
-
-
 #### Running Tests in Development 
 
 ### How do I get set up? ###
@@ -65,32 +62,16 @@ zipp==3.6.0
 
 ## API Endpoints
 
-Few endpoints require a token for authentication.
 
 ```
-    `{'Authorization': 'Bearer': <token>}`
- ```
-
-```
-| EndPoint                                        |                       Functionality |
+| EndPoint                                        |           Functionality             |
 | ------------------------------------------------|-----------------------------------: |
-| POST /api/register-user/                        |                Register a user      |
-| POST /api/create-employee/                      |         Create a new employee       |
-| POST /api/login/                                |                     User login      |
-| GET /api/logout/                                |                    User Logout      |
-| GET /api/restaurants/                           |            List of all restaurants  |
-| GET /api/menu-list/                             |      List of all menus of today     |
-| GET /api/vote/:id/                              |                       Vote menu     |
-| GET /api/results/                               |         Show results of today       |
-
+| POST /api/rooms//                               |      Get list of rooms available    |
+| POST /api/create-room/                          |           Create a new room         |
+| POST /api/book-room/                            |               Book a room           |
+| GET /api/reservations/                          |       Get list of reservations      |
 ```
 ## Responses
 
 The API responds with JSON data by default.
 
-
-## Request examples
-
-Request GET /api/results/
-
-curl -H "Authorization: Bearer <your_token>" -H "Content-Type: application/json" https://localhost:8000/api/results/
