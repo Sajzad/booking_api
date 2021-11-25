@@ -28,19 +28,7 @@
 ```
     SECRET_KEY=foo
 ```
-    
-## API Features
 
-```
-1. Authentication
-2. Creating restaurant
-3. Uploading menu for restaurant (There should be a menu for each day)
-4. Creating employee
-5. Getting current day menu
-6. Voting for restaurant menu
-7. Getting results for the current day. The winner restaurant should not be the winner for 3 consecutive working days
-8. Logout
-```
 
 ### Dependencies Used
 
@@ -48,12 +36,9 @@
 asgiref==3.4.1
 Django==3.2.9
 django-cors-headers==3.10.0
-django-rest-framework==0.1.0
 djangorestframework==3.12.4
-djangorestframework-jwt==1.11.0
 importlib-metadata==4.8.2
 Markdown==3.3.6
-PyJWT==1.7.1
 pytz==2021.3
 sqlparse==0.4.2
 typing_extensions==4.0.0
