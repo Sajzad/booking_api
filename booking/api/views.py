@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 
+from django.db.models import Q
 
 from .models import *
 from .serializers import *
@@ -62,27 +63,31 @@ class CreateRoomAPIView(APIView):
 			return Response(data=res, status=status.HTTP_400_BAD_REQUEST)
 			
 class BookingApiView(APIView):
-	# 2021-11-21 22:30:41
+
 	def post(self, request, format=None):
 		req = request.data
-		req['total_price'] = 200
+		req['total_price'] = Room.objects.get(id = req.get("room")).price
 		serializer = ReservationSerializers(data=req)
 		if serializer.is_valid():
-			check_out_date = req['check_out'].split("T")[0]
-			reservations = Reservation.objects.filter(
-				room_id = req.get('room'), 
-				check_out__date__contains=check_out_date.strip())
-			if not reservations.exists():
-				serializer.save()
-				res = {
-					"msg": "Room is reserved Succesfully!",
-					"success":True,
-					"data":serializer.data
-				}
+			if not serializer.validated_data['check_in'] > serializer.validated_data['check_out']:
+				check_out_date = req['check_out'].split("T")[0]
+				check_in_date = req['check_in'].split("T")[0]
+				reservations = Reservation.objects.filter(
+					room_id = req.get('room'),
+					check_out__date__gte = check_in_date.strip())
+				if not reservations.exists():
+					serializer.save()
+					res = {
+						"msg": "Room is reserved Succesfully!",
+						"success":True,
+						"data":serializer.data
+					}
+					return Response(data=res, status=status.HTTP_200_OK)
+				res = {"msg":"room is already booked!", "success":True, "data":None}
 				return Response(data=res, status=status.HTTP_200_OK)
-			res = {"msg":"room is already booked!", "success":True, "data":None}
-			return Response(data=res, status=status.HTTP_200_OK)
-
+			else:
+				res = {"msg":"Check in should be less than Check out date!", "success":True, "data":None}
+				return Response(data=res, status=status.HTTP_200_OK)
 		res = {"msg":serializer.errors, "success":False, "data":None}
 		return Response(data=res, status=status.HTTP_400_BAD_REQUEST)
 
